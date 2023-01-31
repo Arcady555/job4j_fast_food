@@ -1,15 +1,17 @@
 package service;
 
+import model.Dish;
+
 import java.util.List;
 
 public interface DishService {
     List<String> product();
 
-    void cookDish();
+    void cookDish(Dish dish);
 
-    void checkDish();
+    void checkDish(Dish dish);
 
-    boolean testDish();
+    boolean testDish(Dish dish);
 
     int dishAmount();
 }

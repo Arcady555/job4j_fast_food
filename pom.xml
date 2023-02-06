@@ -11,6 +11,13 @@
     <name>job4j_fast_food</name>
     <url>http://job4j.ru</url>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.7</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
     <modules>
         <module>admin</module>
         <module>order</module>

@@ -1,6 +1,6 @@
-package service;
+package ru.job4j.dish.service;
 
-import model.Dish;
+import ru.job4j.dish.model.Dish;
 
 import java.util.List;
 

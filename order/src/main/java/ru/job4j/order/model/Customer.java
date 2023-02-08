@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,11 +20,11 @@ public class Customer {
     @EqualsAndHashCode.Include
     private int id;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private List<Order> orders;
 
-    @ManyToOne
-    @JoinColumn(name = "card_id")
-    private Card card;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "customer_id")
+    private List<Card> cards;
 }

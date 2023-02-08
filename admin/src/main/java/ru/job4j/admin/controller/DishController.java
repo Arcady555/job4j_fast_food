@@ -9,7 +9,7 @@ import ru.job4j.dish.model.Dish;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/item")
+@RequestMapping("/api/dish")
 public class DishController {
     private final DishAPIService dishService;
 

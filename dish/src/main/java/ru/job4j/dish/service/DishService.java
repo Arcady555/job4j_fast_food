@@ -1,17 +1,36 @@
 package ru.job4j.dish.service;
 
+import lombok.Data;
+import org.springframework.stereotype.Service;
 import ru.job4j.dish.model.Dish;
+import ru.job4j.dish.repository.DishRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface DishService {
-    List<String> product();
+@Service
+@Data
+public class DishService {
+    private final DishRepository dishes;
 
-    void cookDish(Dish dish);
+    public Boolean save(Dish dish) {
+        dishes.save(dish);
+        Optional<Dish> searchDish = findById(dish.getId());
+        return searchDish.filter(value -> value == dish).isPresent();
+    }
 
-    void checkDish(Dish dish);
+    public Boolean delete(Dish dish) {
+        int id = dish.getId();
+        dishes.delete(dish);
+        Optional<Dish> searchDish = findById(id);
+        return searchDish.isEmpty();
+    }
 
-    boolean testDish(Dish dish);
+    public List<Dish> findAll() {
+        return dishes.findAll();
+    }
 
-    int dishAmount();
+    public Optional<Dish> findById(int id) {
+        return dishes.findById(id);
+    }
 }

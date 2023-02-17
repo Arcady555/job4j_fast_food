@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Table(name = "orders")
 public class Order {
 
     @Id
@@ -33,5 +34,6 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    private Status status;
+    @Column(name = "status_id")
+    private int statusId;
 }

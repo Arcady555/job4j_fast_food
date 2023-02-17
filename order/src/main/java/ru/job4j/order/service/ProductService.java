@@ -5,5 +5,5 @@ import org.springframework.stereotype.Service;
 
 @Data
 @Service
-public class StatusService {
+public class ProductService {
 }

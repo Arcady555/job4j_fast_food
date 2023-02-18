@@ -34,6 +34,7 @@ public class Order {
     )
     private List<Product> products = new ArrayList<>();
 
-    @Column(name = "status_id")
-    private int statusId;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_id")
+    private Status status;
 }

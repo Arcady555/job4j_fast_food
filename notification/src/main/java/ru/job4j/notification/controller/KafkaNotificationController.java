@@ -14,7 +14,7 @@ import ru.job4j.notification.service.NotificationService;
 public class KafkaNotificationController {
     private final NotificationService service;
 
-    @KafkaListener(topics = "order")
+    @KafkaListener(topics = "messengers")
     public void msgListener(ConsumerRecord<Integer, String> record) {
         Notification note = new Notification();
         note.setId(record.key());

@@ -19,6 +19,6 @@ public class KafkaOrderController {
         Status status = new Status();
         status.setName("принят");
         order.setStatus(status);
-        kafkaTemplate.send("order", orderId, order.getStatus().getName());
+        kafkaTemplate.send("messengers", orderId, order.getStatus().getName());
     }
 }

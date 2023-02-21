@@ -21,7 +21,6 @@ public class OrderService {
     @Autowired
     private KafkaTemplate<Integer, Integer> kafkaTemplate1;
 
-
     public OrderService(OrderRepository orders, StatusService statuses) {
         this.orders = orders;
         this.statuses = statuses;

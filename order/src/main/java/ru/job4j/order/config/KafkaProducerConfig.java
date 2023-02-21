@@ -38,4 +38,24 @@ public class KafkaProducerConfig {
                 StringSerializer.class);
         return props;
     }
+
+    @Bean
+    public KafkaTemplate<Integer, Integer> kafkaTemplate1() {
+        return new KafkaTemplate<>(producerFactory1());
+    }
+
+    @Bean
+    public ProducerFactory<Integer, Integer> producerFactory1() {
+        return new DefaultKafkaProducerFactory<>(producerConfigs1());
+    }
+
+    @Bean
+    public Map<String, Object> producerConfigs1() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                IntegerSerializer.class);
+        return props;
+    }
 }

@@ -6,7 +6,6 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import ru.job4j.notification.model.Notification;
 import ru.job4j.notification.service.NotificationService;
 
 @EnableKafka
@@ -18,10 +17,6 @@ public class KafkaNotificationController {
 
     @KafkaListener(topics = "messengers")
     public void msgListener(ConsumerRecord<Integer, String> record) {
-        Notification note = new Notification();
-        note.setId(record.key());
-        String massage = "Заказ № " + record.key() + " " + record.value();
-        note.setMassage(massage);
-        service.save(note);
+        service.msgListener(record);
     }
 }

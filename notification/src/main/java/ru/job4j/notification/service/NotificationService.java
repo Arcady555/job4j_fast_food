@@ -1,6 +1,8 @@
 package ru.job4j.notification.service;
 
 import lombok.Data;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import ru.job4j.notification.model.Notification;
 import ru.job4j.notification.repository.NotificationRepository;
@@ -12,5 +14,14 @@ public class NotificationService {
 
     public void save(Notification note) {
         repository.save(note);
+    }
+
+    @KafkaListener(topics = "messengers")
+    public void msgListener(ConsumerRecord<Integer, String> record) {
+        Notification note = new Notification();
+        note.setId(record.key());
+        String massage = "Заказ № " + record.key() + " " + record.value();
+        note.setMassage(massage);
+        save(note);
     }
 }

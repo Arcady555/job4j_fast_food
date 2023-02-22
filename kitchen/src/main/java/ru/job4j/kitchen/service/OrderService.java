@@ -2,12 +2,15 @@ package ru.job4j.kitchen.service;
 
 import lombok.Data;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.job4j.kitchen.model.Order;
 import ru.job4j.kitchen.model.Status;
 import ru.job4j.kitchen.repository.OrderRepository;
 
 import java.util.Optional;
+import java.util.Random;
 
 @Data
 @Service
@@ -15,6 +18,15 @@ public class OrderService {
     private final OrderRepository orders;
     private final ProductService foodStock;
     private final StatusService statuses;
+
+    @Autowired
+    private KafkaTemplate<Integer, Integer> kafkaTemplate;
+
+    public OrderService(OrderRepository orders, ProductService foodStock, StatusService statuses) {
+        this.orders = orders;
+        this.foodStock = foodStock;
+        this.statuses = statuses;
+    }
 
     public void save(Order order) {
         orders.save(order);
@@ -27,10 +39,14 @@ public class OrderService {
             order = optionalOrder.get();
         } else {
             Status status = new Status();
-            status.setName("Статус не определён!");
+            status.setName("Заказ не найден!");
             order.setStatus(status);
         }
         return order;
+    }
+
+    public void sendToOrder(Integer orderId, Integer statusId) {
+        kafkaTemplate.send("cooked_order", orderId, statusId);
     }
 
     public void msgFromOrder(ConsumerRecord<Integer, String> record) {
@@ -39,6 +55,24 @@ public class OrderService {
         Status status = statuses.findByName(getStatusFromJson(record.value()));
         order.setStatus(status);
         save(order);
+        try {
+            Thread.sleep(60000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Random random = new Random();
+        boolean productEnough = random.nextBoolean();
+        if (!productEnough) {
+            Status statusNo = statuses.findById(2);
+            order.setStatus(statusNo);
+            save(order);
+        } else {
+            Status statusNo = statuses.findById(5);
+            order.setStatus(statusNo);
+            save(order);
+        }
+        sendToOrder(order.getId(), order.getStatus().getId());
     }
 
     private String getStatusFromJson(String str) {

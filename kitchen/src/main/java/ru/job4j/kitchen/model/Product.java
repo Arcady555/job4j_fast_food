@@ -1,4 +1,4 @@
-package ru.job4j.order.model;
+package ru.job4j.kitchen.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,19 +14,16 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@Table(name = "food_stock")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
-
     private String name;
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private int amount;
 }

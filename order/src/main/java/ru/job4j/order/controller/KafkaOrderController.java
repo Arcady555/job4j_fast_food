@@ -7,12 +7,13 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.job4j.order.dto.OrderDto;
 import ru.job4j.order.model.Order;
 import ru.job4j.order.service.OrderService;
 
 @EnableKafka
 @RestController
-@RequestMapping("order")
+@RequestMapping("/order")
 @AllArgsConstructor
 public class KafkaOrderController {
     private final OrderService orders;
@@ -23,7 +24,7 @@ public class KafkaOrderController {
     }
 
     @PostMapping("/kitchen")
-    public void sendToKitchen(Integer orderId, Order order) {
+    public void sendToKitchen(Integer orderId, OrderDto order) {
         orders.sendToKitchen(orderId, order);
     }
 

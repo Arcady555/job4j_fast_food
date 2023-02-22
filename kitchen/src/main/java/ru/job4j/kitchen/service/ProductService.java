@@ -1,21 +1,24 @@
-package ru.job4j.order.service;
+package ru.job4j.kitchen.service;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.stereotype.Service;
-import ru.job4j.order.model.Product;
-import ru.job4j.order.repository.ProductRepository;
+import ru.job4j.kitchen.model.Product;
+import ru.job4j.kitchen.repository.FoodStock;
 
+import java.util.List;
 import java.util.Optional;
 
 @Data
 @Service
-@AllArgsConstructor
 public class ProductService {
-    private ProductRepository products;
+    private FoodStock foodStock;
 
-    public Product findById(int id) {
-        Optional<Product> optionalProduct = products.findById(id);
+    public List<Product> findAll() {
+        return foodStock.findAll();
+    }
+
+    public Product findByName(String name) {
+        Optional<Product> optionalProduct = foodStock.findByName(name);
         Product product = new Product();
         if (optionalProduct.isPresent()) {
             product = optionalProduct.get();

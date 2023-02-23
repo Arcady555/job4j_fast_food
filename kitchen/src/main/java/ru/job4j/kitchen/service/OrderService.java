@@ -20,7 +20,7 @@ public class OrderService {
     private final StatusService statuses;
 
     @Autowired
-    private KafkaTemplate<Integer, Integer> kafkaTemplate;
+    private KafkaTemplate<Integer, String> kafkaTemplate;
 
     public OrderService(OrderRepository orders, ProductService foodStock, StatusService statuses) {
         this.orders = orders;
@@ -45,8 +45,8 @@ public class OrderService {
         return order;
     }
 
-    public void sendToOrder(Integer orderId, Integer statusId) {
-        kafkaTemplate.send("cooked_order", orderId, statusId);
+    public void sendToOrder(Integer orderId, String statusName) {
+        kafkaTemplate.send("cooked_order", orderId, statusName);
     }
 
     public void msgFromOrder(ConsumerRecord<Integer, String> record) {
@@ -72,7 +72,7 @@ public class OrderService {
             order.setStatus(statusNo);
             save(order);
         }
-        sendToOrder(order.getId(), order.getStatus().getId());
+        sendToOrder(order.getId(), order.getStatus().getName());
     }
 
     private String getStatusFromJson(String str) {

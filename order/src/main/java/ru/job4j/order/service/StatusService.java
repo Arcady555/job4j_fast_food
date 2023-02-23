@@ -24,4 +24,15 @@ public class StatusService {
         }
         return status;
     }
+
+    public Status findByName(String name) {
+        Optional<Status> optionalStatus = statuses.findByName(name);
+        Status status = new Status();
+        if (optionalStatus.isPresent()) {
+            status = optionalStatus.get();
+        } else {
+            status.setName("Статус не определён!");
+        }
+        return status;
+    }
 }

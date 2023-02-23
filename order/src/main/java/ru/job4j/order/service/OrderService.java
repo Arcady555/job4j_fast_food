@@ -65,10 +65,10 @@ public class OrderService {
         kafkaTemplateO.send("preorder", orderId, orderDto);
     }
 
-    public void msgFromKitchen(ConsumerRecord<Integer, Integer> record) {
+    public void msgFromKitchen(ConsumerRecord<Integer, String> record) {
         int id = record.key();
         Order order = findById(id);
-        Status status = statuses.findById(record.value());
+        Status status = statuses.findByName(record.value());
         order.setStatus(status);
         orders.save(order);
     }

@@ -22,7 +22,7 @@ public class KafkaKitchenController {
     }
 
     @PostMapping("/order")
-    public void sendToOrder(Integer orderId, Integer statusId) {
-        orders.sendToOrder(orderId, statusId);
+    public void sendToOrder(Integer orderId, String statusName) {
+        orders.sendToOrder(orderId, statusName);
     }
 }

@@ -29,7 +29,7 @@ public class KafkaOrderController {
     }
 
     @KafkaListener(topics = "cooked_order")
-    public void msgFromKitchen(ConsumerRecord<Integer, Integer> record) {
+    public void msgFromKitchen(ConsumerRecord<Integer, String> record) {
         orders.msgFromKitchen(record);
     }
 }

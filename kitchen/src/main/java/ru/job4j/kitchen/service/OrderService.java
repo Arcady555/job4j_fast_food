@@ -60,7 +60,6 @@ public class OrderService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
         Random random = new Random();
         boolean productEnough = random.nextBoolean();
         if (!productEnough) {

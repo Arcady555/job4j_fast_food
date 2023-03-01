@@ -17,6 +17,6 @@ public class KafkaNotificationController {
 
     @KafkaListener(topics = "messengers")
     public void msgListener(ConsumerRecord<Integer, String> record) {
-        service.msgListener(record);
+        service.save(record);
     }
 }

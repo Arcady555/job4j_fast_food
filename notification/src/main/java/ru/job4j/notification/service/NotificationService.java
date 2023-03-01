@@ -11,15 +11,11 @@ import ru.job4j.notification.repository.NotificationRepository;
 public class NotificationService {
     private final NotificationRepository repository;
 
-    public void save(Notification note) {
-        repository.save(note);
-    }
-
-    public void msgListener(ConsumerRecord<Integer, String> record) {
+    public void save(ConsumerRecord<Integer, String> record) {
         Notification note = new Notification();
         note.setId(record.key());
         String massage = "Заказ № " + record.key() + " " + record.value();
         note.setMassage(massage);
-        save(note);
+        repository.save(note);
     }
 }

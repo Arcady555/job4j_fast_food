@@ -9,8 +9,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.support.serializer.JsonSerializer;
-import ru.job4j.order.dto.OrderDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,12 +40,12 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<Integer, OrderDto> kafkaTemplate1() {
+    public KafkaTemplate<Integer, Integer> kafkaTemplate1() {
         return new KafkaTemplate<>(producerFactory1());
     }
 
     @Bean
-    public ProducerFactory<Integer, OrderDto> producerFactory1() {
+    public ProducerFactory<Integer, Integer> producerFactory1() {
         return new DefaultKafkaProducerFactory<>(producerConfigs1());
     }
 
@@ -57,7 +55,7 @@ public class KafkaProducerConfig {
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServer);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
-                JsonSerializer.class);
+                IntegerSerializer.class);
         return props;
     }
 }

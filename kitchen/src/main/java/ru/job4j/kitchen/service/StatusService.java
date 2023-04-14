@@ -1,14 +1,12 @@
 package ru.job4j.kitchen.service;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.springframework.stereotype.Service;
 import ru.job4j.kitchen.model.Status;
 import ru.job4j.kitchen.repository.StatusRepository;
 
 import java.util.Optional;
 
-@Data
 @Service
 @AllArgsConstructor
 public class StatusService {

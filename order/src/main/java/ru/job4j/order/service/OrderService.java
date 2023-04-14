@@ -21,8 +21,8 @@ public class OrderService {
     private final DishService dishService;
     @Autowired
     private KafkaTemplate<Integer, String> kafkaTemplateS;
-    @Autowired
-    private KafkaTemplate<Integer, Integer> kafkaTemplateO;
+  //  @Autowired
+  //  private KafkaTemplate<Integer, Integer> kafkaTemplateO;
 
     public OrderService(OrderRepository orders, StatusService statuses, DishService dishService) {
         this.orders = orders;
@@ -35,7 +35,7 @@ public class OrderService {
         if (fullOrder(order, req)) {
             orders.save(order);
             rsl = true;
-            kafkaTemplateO.send("preorder", order.getId(), order.getStatus().getId());
+            kafkaTemplateS.send("preorder", order.getId(), order.getDishes().toString());
             kafkaTemplateS.send("messengers", order.getId(), order.getStatus().getName());
         }
         return rsl;

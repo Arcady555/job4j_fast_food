@@ -1,30 +1,30 @@
 package ru.job4j.kitchen.service;
 
-import lombok.Data;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.job4j.kitchen.model.Dish;
 import ru.job4j.kitchen.model.Order;
 import ru.job4j.kitchen.model.Status;
 import ru.job4j.kitchen.repository.OrderRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
-@Data
 @Service
 public class OrderService {
     private final OrderRepository orders;
-    private final ProductService foodStock;
+    private final DishService dishService;
     private final StatusService statuses;
 
     @Autowired
     private KafkaTemplate<Integer, String> kafkaTemplate;
 
-    public OrderService(OrderRepository orders, ProductService foodStock, StatusService statuses) {
+    public OrderService(OrderRepository orders, DishService dishService, StatusService statuses) {
         this.orders = orders;
-        this.foodStock = foodStock;
+        this.dishService = dishService;
         this.statuses = statuses;
     }
 
@@ -52,42 +52,33 @@ public class OrderService {
     public void msgFromOrder(ConsumerRecord<Integer, String> record) {
         Order order = new Order();
         order.setId(record.key());
-        Status status = statuses.findByName(getStatusFromJson(record.value()));
-        order.setStatus(status);
-        save(order);
-        try {
-            Thread.sleep(60000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Random random = new Random();
-        boolean productEnough = random.nextBoolean();
-        if (!productEnough) {
-            Status statusNo = statuses.findById(2);
-            order.setStatus(statusNo);
+        order.setStatus(statuses.findById(1));
+        List<Dish> dishes = getDishesFromRecord(record.value());
+        if (dishes != null) {
+            order.setDishes(dishes);
+            order.setStatus(statuses.findById(5));
             save(order);
         } else {
-            Status statusNo = statuses.findById(5);
-            order.setStatus(statusNo);
+            order.setStatus(statuses.findById(2));
             save(order);
         }
         sendToOrder(order.getId(), order.getStatus().getName());
     }
 
-    private String getStatusFromJson(String str) {
-        String[] array = str.split(":");
-        int i = findI(array);
-        String[] statusArray = array[i + 3].split(",");
-        return statusArray[0].substring(1, statusArray[0].length() - 1);
-    }
-
-    private int findI(String[] array) {
-        int rsl = -1;
-        for (int i = 0; i < array.length; i++) {
-            if (array[i].contains("status")) {
-                rsl = i;
+    private List<Dish> getDishesFromRecord(String str) {
+        List<Dish> dishes = new ArrayList<>();
+        String[] array = str.substring(1, str.length() - 1).split(",");
+        for (String element : array) {
+            String name = element.replaceAll(" ", "");
+            Dish dish = dishService.findByName(name);
+            if ("Продукт закончился!".equals(dish.getName()) || "Продукт не найден!".equals(dish.getName())) {
+                return null;
             }
+            int amount = dish.getAmount();
+            dish.setAmount(amount - 1);
+            dishService.save(dish);
+            dishes.add(dish);
         }
-        return rsl;
+        return dishes;
     }
 }

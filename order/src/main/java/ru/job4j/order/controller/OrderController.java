@@ -22,13 +22,13 @@ public class OrderController {
     private OrderService orderService;
     private DishService dishService;
     private StatusService statusService;
-
+/*
     @PostMapping("/kitchen")
     public void sendToKitchen(@RequestBody Order order, HttpServletRequest req) {
         orderService.saveOut(order, req);
-    }
+    } */
 
-    @KafkaListener(topics = "cooked_order")
+    @KafkaListener(topics = "from_kitchen_to_order")
     public void msgFromKitchen(ConsumerRecord<Integer, String> record) {
         orderService.saveIn(record);
     }

@@ -7,6 +7,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.job4j.kitchen.model.Order;
+import ru.job4j.kitchen.service.DishService;
 import ru.job4j.kitchen.service.OrderService;
 
 @EnableKafka
@@ -14,15 +16,26 @@ import ru.job4j.kitchen.service.OrderService;
 @RequestMapping("kitchen")
 @AllArgsConstructor
 public class KafkaKitchenController {
-    private final OrderService orders;
+    private final OrderService orderService;
+    private final DishService dishService;
 
-    @KafkaListener(topics = "preorder")
+    @KafkaListener(topics = "from_order_to_kitchen")
     public void msgFromOrder(ConsumerRecord<Integer, String> record) {
-        orders.msgFromOrder(record);
+        orderService.msgFromOrder(record);
     }
 
     @PostMapping("/order")
-    public void sendToOrder(Integer orderId, String statusName) {
-        orders.sendToOrder(orderId, statusName);
+    public void sendToOrder(Order order) {
+        orderService.sendToOrder(order);
+    }
+
+    @KafkaListener(topics = "from_dish_to_kitchen")
+    public void msgFromDish(ConsumerRecord<Integer, String> record) {
+        orderService.msgFromDish(record);
+    }
+
+    @PostMapping("/kitchen")
+    public void sendToDish(Order order) {
+        orderService.sendToDish(order);
     }
 }

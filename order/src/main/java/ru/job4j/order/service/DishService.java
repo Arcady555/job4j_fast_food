@@ -29,4 +29,9 @@ public class DishService {
     public List<Dish> findAll() {
         return products.findAll();
     }
+
+    public Dish findByName(String name) {
+        Optional<Dish> optionalDish = products.findByName(name);
+        return optionalDish.get();
+    }
 }

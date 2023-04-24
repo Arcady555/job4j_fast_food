@@ -15,25 +15,25 @@ import java.util.Optional;
 
 @Service
 public class OrderService {
-    private final OrderRepository orders;
+    private final OrderRepository orderRepository;
     private final DishService dishService;
-    private final StatusService statuses;
+    private final StatusService statusService;
 
     @Autowired
     private KafkaTemplate<Integer, String> kafkaTemplate;
 
-    public OrderService(OrderRepository orders, DishService dishService, StatusService statuses) {
-        this.orders = orders;
+    public OrderService(OrderRepository orderRepository, DishService dishService, StatusService statusService) {
+        this.orderRepository = orderRepository;
         this.dishService = dishService;
-        this.statuses = statuses;
+        this.statusService = statusService;
     }
 
     public void save(Order order) {
-        orders.save(order);
+        orderRepository.save(order);
     }
 
     public Order findById(int id) {
-        Optional<Order> optionalOrder = orders.findById(id);
+        Optional<Order> optionalOrder = orderRepository.findById(id);
         Order order = new Order();
         if (optionalOrder.isPresent()) {
             order = optionalOrder.get();
@@ -45,24 +45,41 @@ public class OrderService {
         return order;
     }
 
-    public void sendToOrder(Integer orderId, String statusName) {
-        kafkaTemplate.send("cooked_order", orderId, statusName);
-    }
-
     public void msgFromOrder(ConsumerRecord<Integer, String> record) {
         Order order = new Order();
         order.setId(record.key());
-        order.setStatus(statuses.findById(1));
+        order.setStatus(statusService.findById(1));
         List<Dish> dishes = getDishesFromRecord(record.value());
-        if (dishes != null) {
-            order.setDishes(dishes);
-            order.setStatus(statuses.findById(5));
-            save(order);
+        order.setDishes(dishes);
+        sendToDish(order);
+    }
+
+    public void sendToDish(Order order) {
+        kafkaTemplate.send("from_kitchen_to_dish", order.getId(), order.getDishes().toString());
+    }
+
+    public void msgFromDish(ConsumerRecord<Integer, String> record) {
+        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+        System.out.println(record.value());
+        Order order = new Order();
+        Status status;
+        List<Dish> dishes;
+        order.setId(record.key());
+        if (!"null".equals(record.value())) {
+            dishes = getDishesFromRecord(record.value());
+            status = statusService.findById(3);
         } else {
-            order.setStatus(statuses.findById(2));
-            save(order);
+            dishes = null;
+            status = statusService.findById(2);
         }
-        sendToOrder(order.getId(), order.getStatus().getName());
+        order.setDishes(dishes);
+        order.setStatus(status);
+        save(order);
+        sendToOrder(order);
+    }
+
+    public void sendToOrder(Order order) {
+        kafkaTemplate.send("from_kitchen_to_order", order.getId(), order.toString());
     }
 
     private List<Dish> getDishesFromRecord(String str) {
@@ -70,13 +87,13 @@ public class OrderService {
         String[] array = str.substring(1, str.length() - 1).split(",");
         for (String element : array) {
             String name = element.replaceAll(" ", "");
-            Dish dish = dishService.findByName(name);
-            if ("Продукт закончился!".equals(dish.getName()) || "Продукт не найден!".equals(dish.getName())) {
-                return null;
+            Dish dish;
+            if (!"Блюдо закончилось!".equals(name) && !"Блюдо не найдено!".equals(name)) {
+                dish = dishService.findByName(name);
+            } else {
+                dish = new Dish();
+                dish.setName(name);
             }
-            int amount = dish.getAmount();
-            dish.setAmount(amount - 1);
-            dishService.save(dish);
             dishes.add(dish);
         }
         return dishes;

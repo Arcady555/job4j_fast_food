@@ -1,5 +1,5 @@
-INSERT INTO dishes (name, amount) VALUES ('блюдо1', '5');
-INSERT INTO dishes (name, amount) VALUES ('блюдо2', '0');
-INSERT INTO dishes (name, amount) VALUES ('блюдо3', '9');
-INSERT INTO dishes (name, amount) VALUES ('блюдо4', '3');
-INSERT INTO dishes (name, amount) VALUES ('блюдо5', '25');
+INSERT INTO dishes (name) VALUES ('блюдо1');
+INSERT INTO dishes (name) VALUES ('блюдо2');
+INSERT INTO dishes (name) VALUES ('блюдо3');
+INSERT INTO dishes (name) VALUES ('блюдо4');
+INSERT INTO dishes (name) VALUES ('блюдо5');

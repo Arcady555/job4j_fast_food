@@ -28,4 +28,9 @@ public class Order {
             inverseJoinColumns = { @JoinColumn(name = "dish_id") }
     )
     private List<Dish> dishes = new ArrayList<>();
+
+    @Override
+    public String toString() {
+        return "Order{" + "status=" + status + ", dishes=" + dishes + '}';
+    }
 }

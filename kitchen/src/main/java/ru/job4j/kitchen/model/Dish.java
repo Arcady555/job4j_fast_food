@@ -23,5 +23,8 @@ public class Dish {
     @ManyToMany(mappedBy = "dishes")
     private List<Order> orders = new ArrayList<>();
 
-    private int amount;
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -1,16 +1,19 @@
 package ru.job4j.dish.controller;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.dish.service.DishService;
 import ru.job4j.dish.model.Dish;
+import ru.job4j.dish.service.DishService;
 
 import java.util.List;
-import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/dish")
+@EnableKafka
+@Controller
+@RequestMapping("/dish")
 public class DishController {
     private final DishService dishService;
 
@@ -18,43 +21,25 @@ public class DishController {
         this.dishService = dishService;
     }
 
-    @PostMapping
-    public ResponseEntity<Void> save(@RequestBody Dish dish) {
-        boolean status = dishService.save(dish);
-        return ResponseEntity
-                .status(status ? HttpStatus.OK : HttpStatus.NOT_FOUND)
-                .build();
+    @GetMapping("/all")
+    public String showAll(Model model) {
+        model.addAttribute("dishes", dishService.findAll());
+        return "dish/dishes";
     }
 
-    @PutMapping
-    public ResponseEntity<Void> update(@RequestParam int id, @RequestBody Dish dish) {
-        dish.setId(id);
-        boolean status = dishService.save(dish);
-        return ResponseEntity
-                .status(status ? HttpStatus.OK : HttpStatus.NOT_FOUND)
-                .build();
+    @GetMapping("/{id}")
+    public String showDish(Model model, @PathVariable("id") int id) {
+        model.addAttribute("dish", dishService.findById(id));
+        return "dish/dish";
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(@RequestParam int id) {
-        Optional<Dish> searchDish = getById(id);
-        if (searchDish.isPresent()) {
-            boolean status = dishService.delete(searchDish.get());
-            return ResponseEntity
-                    .status(status ? HttpStatus.OK : HttpStatus.NOT_FOUND)
-                    .build();
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
+    @KafkaListener(topics = "from_kitchen_to_dish")
+    public void msgFromKitchen(ConsumerRecord<Integer, String> record) {
+        dishService.msgFromKitchen(record);
     }
 
-    @GetMapping("/getById")
-    public Optional<Dish> getById(@RequestParam int id) {
-        return dishService.findById(id);
-    }
-
-    @GetMapping("/getAll")
-    public List<Dish> getAll() {
-        return dishService.findAll();
+    @PostMapping("/kitchen")
+    public void sendToKitchen(Integer orderId, String dishes) {
+        dishService.sendToKitchen(orderId, dishes);
     }
 }

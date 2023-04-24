@@ -22,4 +22,9 @@ public class Status {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "status_id")
     private List<Order> orders;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

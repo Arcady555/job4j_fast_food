@@ -21,8 +21,6 @@ public class OrderService {
     private final DishService dishService;
     @Autowired
     private KafkaTemplate<Integer, String> kafkaTemplateS;
-  //  @Autowired
-  //  private KafkaTemplate<Integer, Integer> kafkaTemplateO;
 
     public OrderService(OrderRepository orders, StatusService statuses, DishService dishService) {
         this.orders = orders;
@@ -65,7 +63,6 @@ public class OrderService {
     }
 
     private Order msgFromKitchen(ConsumerRecord<Integer, String> record) {
-        System.out.println(record.value() + "!!!!!!!!!!!!!!!!!!!!!!!");
         int id = record.key();
         Order order = findById(id);
         List<Dish> dishes = getDishFromKitchen(record.value());

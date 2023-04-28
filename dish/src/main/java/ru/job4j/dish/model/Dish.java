@@ -12,7 +12,6 @@ import javax.persistence.*;
 @EqualsAndHashCode
 public class Dish {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @EqualsAndHashCode.Include
     private int id;
     private String name;

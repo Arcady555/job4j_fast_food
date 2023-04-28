@@ -6,10 +6,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.dish.model.Dish;
 import ru.job4j.dish.service.DishService;
-
-import java.util.List;
 
 @EnableKafka
 @Controller
@@ -36,6 +33,11 @@ public class DishController {
     @KafkaListener(topics = "from_kitchen_to_dish")
     public void msgFromKitchen(ConsumerRecord<Integer, String> record) {
         dishService.msgFromKitchen(record);
+    }
+
+    @KafkaListener(topics = "from_admin_to_dish")
+    public void msgFromAdmin(ConsumerRecord<Integer, String> record) {
+        dishService.msgFromAdmin(record);
     }
 
     @PostMapping("/kitchen")

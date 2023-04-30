@@ -36,8 +36,6 @@ Postgresql 14
 
 ![img.png](img.png)
 
-Maven 3.8.1
-
 ## Описание:
 
 1й Независимый процесс

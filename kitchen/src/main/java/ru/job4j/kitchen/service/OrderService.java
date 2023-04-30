@@ -59,8 +59,6 @@ public class OrderService {
     }
 
     public void msgFromDish(ConsumerRecord<Integer, String> record) {
-        System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-        System.out.println(record.value());
         Order order = new Order();
         Status status;
         List<Dish> dishes;

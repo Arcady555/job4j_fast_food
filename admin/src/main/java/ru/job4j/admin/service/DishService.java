@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.admin.model.Dish;
 import ru.job4j.admin.repository.DishRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,11 +40,25 @@ public class DishService {
         return dish;
     }
 
-    public void msgFromDish(ConsumerRecord<Integer, Integer> record) {
-        Dish dish = findById(record.key());
-        int amount = record.value();
-        dish.setAmount(amount);
-        save(dish);
+    public Dish findByName(String name) {
+        Optional<Dish> optionalDish = dishRepository.findByName(name);
+        Dish dish = new Dish();
+        if (optionalDish.isPresent()) {
+            dish = optionalDish.get();
+            if (dish.getAmount() < 1) {
+                dish.setName("Блюдо закончилось!");
+            }
+        } else {
+            dish.setName("Блюдо не найдено!");
+        }
+        return dish;
+    }
+
+    public void msgFromDish(ConsumerRecord<Integer, String> record) {
+        List<Dish> dishList = getDishesFromDish(record.value());
+        for (Dish dish: dishList) {
+            save(dish);
+        }
     }
 
     public void save(Dish dish) {
@@ -59,5 +74,25 @@ public class DishService {
 
     public void  sendToDish(int id, String dish) {
         kafkaTemplate.send("from_admin_to_dish", id, dish);
+    }
+
+    private List<Dish> getDishesFromDish(String str) {
+        List<Dish> dishList = new ArrayList<>();
+        boolean  dishExist = false;
+        String[] array = str.substring(1, str.length() - 1).split(", ");
+        for (String element : array) {
+            Dish dish = findByName(element);
+            if (!"Блюдо закончилось!".equals(dish.getName()) || !"Блюдо не найдено!".equals(dish.getName())) {
+                dishExist = true;
+                int amount = dish.getAmount();
+                dish.setAmount(amount - 1);
+                dishRepository.save(dish);
+            }
+            dishList.add(dish);
+        }
+        if (!dishExist) {
+            dishList = null;
+        }
+        return dishList;
     }
 }

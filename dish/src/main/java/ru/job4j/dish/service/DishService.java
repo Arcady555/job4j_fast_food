@@ -76,15 +76,16 @@ public class DishService {
     }
 
     private List<Dish> getDishesFromKitchen(String str) {
+        System.out.println(str);
         List<Dish> dishList = new ArrayList<>();
         boolean  dishExist = false;
-        String[] array = str.substring(1, str.length() - 1).split(",");
+        String[] array = str.substring(1, str.length() - 1).split(", ");
         for (String element : array) {
-            String name = element.replaceAll(" ", "");
-            Dish dish = findByName(name);
+            Dish dish = findByName(element);
             if (!"Блюдо закончилось!".equals(dish.getName()) || !"Блюдо не найдено!".equals(dish.getName())) {
                 dishExist = true;
                 int amount = dish.getAmount();
+               // dish.setId(0);
                 dish.setAmount(amount - 1);
                 dishRepository.save(dish);
             }

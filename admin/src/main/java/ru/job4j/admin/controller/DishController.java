@@ -32,7 +32,7 @@ public class DishController {
     }
 
     @KafkaListener(topics = "from_dish_to_admin")
-    public void msgFromDish(ConsumerRecord<Integer, Integer> record) {
+    public void msgFromDish(ConsumerRecord<Integer, String> record) {
         dishService.msgFromDish(record);
     }
 

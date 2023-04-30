@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @EnableKafka
 @AllArgsConstructor
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
     private OrderService orderService;
     private DishService dishService;
@@ -51,7 +51,7 @@ public class OrderController {
     public String addTaskPost(@ModelAttribute Order order, HttpServletRequest req) {
         order.setStatus(statusService.findById(1));
         orderService.saveOut(order, req);
-        return "redirect:/order/order/" + order.getId();
+        return "redirect:/orders/order/" + order.getId();
     }
 
     @GetMapping("/order/{id}")

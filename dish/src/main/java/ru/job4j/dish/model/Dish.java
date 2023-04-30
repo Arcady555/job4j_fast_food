@@ -21,4 +21,8 @@ public class Dish {
     public String toString() {
         return name;
     }
+
+    public String toStringForAdmin() {
+        return name;
+    }
 }

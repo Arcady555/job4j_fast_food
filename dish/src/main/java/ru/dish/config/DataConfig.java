@@ -1,4 +1,4 @@
-package ru.job4j.dish.config;
+package ru.dish.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories("ru.job4j.dish.repository")
+@EnableJpaRepositories("ru.dish.repository")
 @EnableTransactionManagement
 public class DataConfig {
 
@@ -25,7 +25,7 @@ public class DataConfig {
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ru.job4j.dish");
+        factory.setPackagesToScan("ru.job4j.dish", "ru.domain.model");
         factory.setDataSource(ds);
         return factory;
     }

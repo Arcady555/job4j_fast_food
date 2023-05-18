@@ -1,4 +1,4 @@
-package ru.job4j.admin.config;
+package ru.dish.config;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.IntegerDeserializer;

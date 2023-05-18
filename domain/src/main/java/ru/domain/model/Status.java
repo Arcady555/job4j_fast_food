@@ -1,7 +1,5 @@
 package ru.domain.model;
 
-import javax.persistence.Entity;
-
 public enum Status {
     ACCEPTED("принят"), CANCELED("отменён"), WAIT_PAY("ожидает оплату"),
     PAYED("оплачен"), COOKING("готовится"),

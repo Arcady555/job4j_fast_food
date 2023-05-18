@@ -18,6 +18,8 @@ public class SimpleOrderService implements OrderService  {
     public void msgFromOrder(int id) {
         Order order = findById(id);
         if (Status.PAYED.equals(order.getStatus())) {
+            order.setStatus(Status.COOKING);
+            kafkaProducerService.sendToNotification(id, order.getStatus().toString());
             try {
                 Thread.sleep(10000);
             } catch (InterruptedException e) {
@@ -27,8 +29,8 @@ public class SimpleOrderService implements OrderService  {
              * Запуск приготовления заказа
             */
             order.setStatus(Status.READY_FOR_DELIVERY);
+            orderRepository.save(order);
         }
-        orderRepository.save(order);
         kafkaProducerService.sendToDelivery(id, order.getStatus().toString());
         kafkaProducerService.sendToNotification(id, order.getStatus().toString());
     }

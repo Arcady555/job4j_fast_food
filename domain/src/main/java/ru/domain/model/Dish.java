@@ -20,14 +20,20 @@ public class Dish {
     @EqualsAndHashCode.Include
     private int id;
 
+    private byte[] image;
+
     private String name;
+
+    private int price;
+
+    private int amount;
 
     @ManyToMany(mappedBy = "dishes")
     private List<Order> orders = new ArrayList<>();
 
-    public void setName(String name) {
+  /*  public void setName(String name) {
         this.name = name;
-    }
+    } */
 
     @Override
     public String toString() {

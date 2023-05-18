@@ -1,4 +1,4 @@
-package ru.job4j.kitchen.config;
+package ru.kitchen.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,7 +1,11 @@
-package ru.job4j.kitchen.repository;
+package ru.kitchen.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.kitchen.model.Order;
+import ru.domain.model.Order;
+
+import java.util.List;
 
 public interface OrderRepository extends CrudRepository<Order, Integer> {
+    @Override
+    List<Order> findAll();
 }

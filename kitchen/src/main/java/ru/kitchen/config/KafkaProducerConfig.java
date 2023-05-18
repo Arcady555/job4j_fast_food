@@ -1,4 +1,4 @@
-package ru.job4j.kitchen.config;
+package ru.kitchen.config;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;

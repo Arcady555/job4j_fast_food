@@ -1,4 +1,4 @@
-package ru.job4j.notification.config;
+package ru.notification.config;
 
 import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;

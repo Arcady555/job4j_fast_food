@@ -1,7 +1,7 @@
-package ru.job4j.notification.repository;
+package ru.notification.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import ru.job4j.notification.model.Notification;
+import ru.domain.model.Notification;
 
 public interface NotificationRepository extends CrudRepository<Notification, Integer> {
 }

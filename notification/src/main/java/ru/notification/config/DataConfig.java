@@ -1,4 +1,4 @@
-package ru.job4j.notification.config;
+package ru.notification.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories("ru.job4j.notification.repository")
+@EnableJpaRepositories("ru.notification.repository")
 @EnableTransactionManagement
 public class DataConfig {
 
@@ -25,7 +25,7 @@ public class DataConfig {
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ru.job4j.notification");
+        factory.setPackagesToScan("ru.notification", "ru.domain.model");
         factory.setDataSource(ds);
         return factory;
     }

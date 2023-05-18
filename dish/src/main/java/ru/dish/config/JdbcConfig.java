@@ -1,4 +1,4 @@
-package ru.job4j.admin.config;
+package ru.dish.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

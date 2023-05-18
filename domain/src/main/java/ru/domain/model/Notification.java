@@ -1,4 +1,4 @@
-package ru.job4j.notification.model;
+package ru.domain.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

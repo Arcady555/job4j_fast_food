@@ -1,4 +1,4 @@
-package ru.job4j.admin.model;
+package ru.admin.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package ru.job4j.admin.controller;
+package ru.admin.controller;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.EnableKafka;
@@ -6,8 +6,8 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.admin.model.Dish;
-import ru.job4j.admin.service.DishService;
+import ru.admin.model.Dish;
+import ru.admin.service.DishService;
 
 @EnableKafka
 @Controller

@@ -1,4 +1,4 @@
-package ru.order.config;
+package ru.admin.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;

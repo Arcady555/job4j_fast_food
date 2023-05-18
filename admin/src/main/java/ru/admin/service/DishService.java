@@ -1,4 +1,4 @@
-package ru.job4j.admin.service;
+package ru.admin.service;
 
 import lombok.Data;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import ru.job4j.admin.model.Dish;
-import ru.job4j.admin.repository.DishRepository;
+import ru.admin.repository.DishRepository;
+import ru.admin.model.Dish;
 
 import java.util.ArrayList;
 import java.util.List;

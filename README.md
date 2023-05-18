@@ -34,7 +34,7 @@ Postgresql 14
 
 ## Схема работы:
 
-![](/Users/macbookair/IdeaProjects/job4j_fast_food/plan.png)
+![plan](plan.png)
 
 ## Описание:
 Для проекта предусмотрена одна единая база данных.

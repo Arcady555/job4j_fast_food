@@ -18,8 +18,8 @@ public class KafkaConsumerController {
         orderService.msgFromClient(record.key(), record.value());
     }
 
-    @KafkaListener(topics = "from_kitchen_to_order")
-    public void fromKitchen(ConsumerRecord<Integer, String> record) {
+    @KafkaListener(topics = "from_dish_to_order")
+    public void fromDish(ConsumerRecord<Integer, String> record) {
         orderService.msgFromDish(record.key(), record.value());
     }
 

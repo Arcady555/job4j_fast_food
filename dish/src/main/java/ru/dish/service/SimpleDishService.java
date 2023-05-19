@@ -18,11 +18,8 @@ public class SimpleDishService implements DishService {
 
     @Override
     public void msgFromOrder(int id) {
-        System.out.println("id!!!!!!!!!!!!!!!!!!!!!!!" + id);
         Order order = orderService.findById(id);
-        System.out.println("ohlth!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + order.toString());
         List<Dish> dishList = order.getDishes();
-        System.out.println("дтшлист!!!!!!!!!!!!!!!" + dishList.toString());
         workWithDish(dishList);
         order.setDishes(dishList);
         order.setStatus(Status.WAIT_PAY);

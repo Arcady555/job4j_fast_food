@@ -31,10 +31,6 @@ public class Dish {
     @ManyToMany(mappedBy = "dishes")
     private List<Order> orders = new ArrayList<>();
 
-  /*  public void setName(String name) {
-        this.name = name;
-    } */
-
     @Override
     public String toString() {
         return  name;

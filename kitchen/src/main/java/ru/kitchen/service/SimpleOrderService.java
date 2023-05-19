@@ -19,6 +19,7 @@ public class SimpleOrderService implements OrderService  {
         Order order = findById(id);
         if (Status.PAYED.equals(order.getStatus())) {
             order.setStatus(Status.COOKING);
+            orderRepository.save(order);
             kafkaProducerService.sendToNotification(id, order.getStatus().toString());
             try {
                 Thread.sleep(10000);

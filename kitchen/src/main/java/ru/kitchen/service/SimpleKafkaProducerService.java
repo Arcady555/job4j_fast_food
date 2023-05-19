@@ -16,6 +16,6 @@ public class SimpleKafkaProducerService implements KafkaProducerService {
 
     @Override
     public void sendToNotification(int id, String str) {
-        kafkaTemplate.send("from_kitchen_to_notification", id, str);
+        kafkaTemplate.send("notification", id, str);
     }
 }

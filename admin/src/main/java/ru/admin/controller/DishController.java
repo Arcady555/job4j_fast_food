@@ -1,23 +1,17 @@
 package ru.admin.controller;
 
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.annotation.KafkaListener;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.admin.model.Dish;
-import ru.admin.service.DishService;
+import ru.domain.model.Dish;
+import ru.admin.service.SimpleDishService;
 
-@EnableKafka
+@AllArgsConstructor
 @Controller
-@RequestMapping("/dishes")
+@RequestMapping("/admin/dishes")
 public class DishController {
-    private final DishService dishService;
-
-    public DishController(DishService dishService) {
-        this.dishService = dishService;
-    }
+    private final SimpleDishService dishService;
 
     @GetMapping("/all")
     public String showAll(Model model) {
@@ -25,15 +19,16 @@ public class DishController {
         return "dish/dishes";
     }
 
+    @GetMapping("/allNotEnough")
+    public String showNotEnough(Model model) {
+        model.addAttribute("dishes", dishService.findAllNotEnough());
+        return "dish/dishesNotEnough";
+    }
+
     @GetMapping("/{id}")
     public String showDish(Model model, @PathVariable("id") int id) {
         model.addAttribute("dish", dishService.findById(id));
         return "dish/dish";
-    }
-
-    @KafkaListener(topics = "from_dish_to_admin")
-    public void msgFromDish(ConsumerRecord<Integer, String> record) {
-        dishService.msgFromDish(record);
     }
 
     @GetMapping("/update/{id}")

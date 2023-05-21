@@ -12,33 +12,33 @@
             integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <title>Все блюда</title>
+    <title>Все блюда по наличию</title>
 </head>
 <body>
 <div class="alert alert-warning">
     <nav class="navbar navbar-expand-lg alert alert-primary">
- <!--   <a class="navbar-brand" href="#">Происшествия</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button> -->
-   <!--     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav" >
+        <!--   <a class="navbar-brand" href="#">Происшествия</a>
+           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+           </button> -->
+        <!--     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                 <div class="navbar-nav" >
+                     <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
+                     <span th:text="${user.username}"></span>
+                     <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
+                     </a>
+                 </div>
+             </div>  -->
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
-                <span th:text="${user.username}"></span>
+                <!--   <span th:text="${user.username}"></span> -->
                 <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
-                </a>
+                <a class="nav-item nav-link" th:href="@{/admin/dishes/all}">Блюда</a>
+                <a class="nav-item nav-link" th:href="@{/admin/orders/all}">Заказы</a>
+                <a class="nav-item nav-link" th:href="@{/admin/clients/all}">Клиенты</a>
             </div>
-        </div>  -->
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
-                    <!--   <span th:text="${user.username}"></span> -->
-                    <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
-                    <a class="nav-item nav-link" th:href="@{/admin/dishes/all}">Блюда</a>
-                    <a class="nav-item nav-link" th:href="@{/admin/orders/all}">Заказы</a>
-                    <a class="nav-item nav-link" th:href="@{/admin/clients/all}">Клиенты</a>
-                </div>
-            </div>
+        </div>
     </nav>
     <nav class="navbar navbar-expand-lg alert alert-primary">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">

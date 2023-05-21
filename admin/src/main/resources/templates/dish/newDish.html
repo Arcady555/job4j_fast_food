@@ -16,11 +16,36 @@
 <body>
 <div class="alert alert-warning">
     <nav class="navbar navbar-expand-lg alert alert-primary">
+        <!--   <a class="navbar-brand" href="#">Происшествия</a>
+           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+           </button> -->
+        <!--     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                 <div class="navbar-nav" >
+                     <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
+                     <span th:text="${user.username}"></span>
+                     <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
+                     </a>
+                 </div>
+             </div>  -->
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" th:href="@{/registration}">Добавить пользователя</a>
-             <!--   <span th:text="${user.username}"></span> -->
+                <!--   <span th:text="${user.username}"></span> -->
                 <a class="nav-item nav-link" th:href="@{/logout}">Выйти</a>
+                <a class="nav-item nav-link" th:href="@{/admin/dishes/all}">Блюда</a>
+                <a class="nav-item nav-link" th:href="@{/admin/orders/all}">Заказы</a>
+                <a class="nav-item nav-link" th:href="@{/admin/clients/all}">Клиенты</a>
+            </div>
+        </div>
+    </nav>
+    <nav class="navbar navbar-expand-lg alert alert-primary">
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/admin/dishes/all}">Все блюда</a>
+            </div>
+            <div class="navbar-nav">
+                <a class="nav-item nav-link" th:href="@{/admin/dishes/allNotEnough}">Блюда, которые закончились</a>
             </div>
         </div>
     </nav>

@@ -14,7 +14,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 @Configuration
-@EnableJpaRepositories("ru.job4j.admin.repository")
+@EnableJpaRepositories("ru.admin.repository")
 @EnableTransactionManagement
 public class DataConfig {
 
@@ -25,7 +25,7 @@ public class DataConfig {
         vendorAdapter.setGenerateDdl(true);
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
-        factory.setPackagesToScan("ru.job4j.admin");
+        factory.setPackagesToScan("ru.admin", "ru.domain.model");
         factory.setDataSource(ds);
         return factory;
     }

@@ -30,7 +30,6 @@ public class SimpleDishService implements DishService {
     private void workWithDish(List<Dish> dishList) {
         for (Dish dish : dishList) {
             if (dish.getAmount() == 0) {
-                kafkaProducerService.sendToAdmin(dish.getId(), dish.getAmount());
                 dish = new Dish();
                 dish.setName("Блюдо закончилось!");
                 dish.setPrice(0);

@@ -9,4 +9,8 @@
 		http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd">
     <include file="scripts/001_ddl_create_table_notification.sql" relativeToChangelogFile="true"/>
+    <include file="security/001_ddl_create_authorities_table.sql" relativeToChangelogFile="true"/>
+    <include file="security/002_ddl_create_users_table.sql" relativeToChangelogFile="true"/>
+    <include file="security/003_dml_insert_into_authorities.sql" relativeToChangelogFile="true"/>
+    <include file="security/004_dml_insert_into_users.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
